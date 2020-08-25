@@ -58,3 +58,35 @@ class TestObservableList:
         observer.assert_called_once_with(
             obs_list, slice(1, 3), [2, 3], [11, 22, 33]
         )
+
+    def test_delItem_removesItemsAndNotifies(self):
+        obs_list = ObservableList([1, 2, 3, 4])
+        obs_list.observe(observer := Mock())
+        del obs_list[1:3]
+        observer.assert_called_once_with(obs_list, slice(1, 3), [2, 3], [])
+        assert obs_list == [1, 4]
+
+    def test_insert_addsWrappedElementAndNotifies(self):
+        obs_list = ObservableList([1, 2, 3])
+        obs_list.observe(observer := Mock())
+        obs_list.insert(1, 11)
+        observer.assert_called_once_with(obs_list, slice(1, 1), [], [11])
+        assert obs_list == [1, 11, 2, 3]
+        assert isinstance(obs_list[1], Observable)
+
+    def test_extend_addsListAndCallsNotify(self):
+        obs_list = ObservableList([1, 2, 3])
+        obs_list.observe(observer := Mock())
+        obs_list.extend([11, 22])
+        observer.assert_called_with(obs_list, slice(3, 3), [], [11, 22])
+        assert obs_list == [1, 2, 3, 11, 22]
+        assert isinstance(obs_list[3], Observable)
+
+    def test_reverse_notifiesForAllObjs(self):
+        obs_list = ObservableList([1, 2, 3])
+        obs_list.observe(observer := Mock())
+        obs_list.reverse()
+        observer.assert_called_with(
+            obs_list, slice(0, 3), [1, 2, 3], [3, 2, 1]
+        )
+        assert obs_list == [3, 2, 1]

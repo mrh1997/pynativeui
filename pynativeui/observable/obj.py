@@ -65,12 +65,6 @@ class Observable(Generic[T]):
     def __getitem__(self, ndx):
         return self.__wrapped__.__getitem__(ndx)
 
-    def __setitem__(self, ndx, item):
-        return self.__wrapped__.__setitem__(ndx, item)
-
-    def __delitem__(self, ndx):
-        return self.__wrapped__.__delitem__(ndx)
-
     def __call__(self, *args, **kwargs):
         return self.__wrapped__.__call__(*args, **kwargs)
 
@@ -95,26 +89,17 @@ class Observable(Generic[T]):
     def __add__(self, other):
         return self.__wrapped__.__add__(other)
 
-    def __iadd__(self, other):
-        return self.__wrapped__.__iadd__(other)
-
     def __radd__(self, other):
         return self.__wrapped__.__radd__(other)
 
     def __sub__(self, other):
         return self.__wrapped__.__sub__(other)
 
-    def __isub__(self, other):
-        return self.__wrapped__.__isub__(other)
-
     def __rsub__(self, other):
         return self.__wrapped__.__rsub__(other)
 
     def __mul__(self, other):
         return self.__wrapped__.__mul__(other)
-
-    def __imul__(self, other):
-        return self.__wrapped__.__imul__(other)
 
     def __rmul__(self, other):
         return self.__wrapped__.__rmul__(other)
@@ -130,9 +115,6 @@ class Observable(Generic[T]):
 
     def __floordiv__(self, other):
         return self.__wrapped__.__floordiv__(other)
-
-    def __ifloordiv__(self, other):
-        return self.__wrapped__.__ifloordiv__(other)
 
     def __rfloordiv__(self, other):
         return self.__wrapped__.__rfloordiv__(other)
